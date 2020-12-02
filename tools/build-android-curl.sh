@@ -20,7 +20,7 @@ set -u
 
 source ./build-android-common.sh
 
-if [ -z ${version+x} ]; then 
+if [ -z ${version+x} ]; then
   version="7.68.0"
 fi
 
@@ -108,7 +108,7 @@ function configure_make() {
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         # --enable-shared need nghttp2 cpp compile
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --disable-shared --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     else
         log_error "not support" && exit 1

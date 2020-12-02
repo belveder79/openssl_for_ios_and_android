@@ -90,6 +90,7 @@ function configure_make() {
     NGHTTP2_OUT_DIR="${pwd_path}/../output/ios/nghttp2-${ARCH}"
 
     export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    export CFLAGS="${CFLAGS} -DCUSTOM_API_EXPORT"
 
     ios_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
@@ -118,6 +119,7 @@ function configure_make() {
     make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
         make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        cp src/.libs/libcurltool.0.dylib ${PREFIX_DIR}/lib
     fi
 
     popd
