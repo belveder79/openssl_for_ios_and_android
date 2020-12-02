@@ -20,7 +20,7 @@ set -u
 
 source ./build-ios-common.sh
 
-if [ -z ${version+x} ]; then 
+if [ -z ${version+x} ]; then
   version="1.1.1d"
 fi
 
@@ -79,7 +79,7 @@ function configure_make() {
     mkdir -p ${OUTPUT_ROOT}/log
 
     set_ios_cpu_feature "openssl" "${ARCH}" "${IOS_MIN_TARGET}" "${SDK_PATH}"
-    
+
     ios_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
     unset IPHONEOS_DEPLOYMENT_TARGET
@@ -87,24 +87,24 @@ function configure_make() {
     if [[ "${ARCH}" == "x86_64" ]]; then
 
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure darwin64-x86_64-cc no-shared --prefix="${PREFIX_DIR}"
+        ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
 
     elif [[ "${ARCH}" == "armv7" ]]; then
 
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
+        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
+        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     elif [[ "${ARCH}" == "arm64e" ]]; then
 
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
+        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     else
