@@ -16,17 +16,17 @@
 
 source ./build-common.sh
 
-if [ -z ${api+x} ]; then 
+if [ -z ${api+x} ]; then
   api="8.0"
 fi
-if [ -z ${arch+x} ]; then 
-  arch=("armv7" "arm64" "arm64e" "x86_64")
+if [ -z ${arch+x} ]; then
+  arch=("armv7" "arm64") # "arm64e" "x86_64")
 fi
-if [ -z ${sdk+x} ]; then 
-  sdk=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator")
+if [ -z ${sdk+x} ]; then
+  sdk=("iphoneos" "iphoneos") # "iphoneos" "iphonesimulator")
 fi
-if [ -z ${platform+x} ]; then 
-  platform=("iPhoneOS" "iPhoneOS" "iphoneos" "iPhoneSimulator")
+if [ -z ${platform+x} ]; then
+  platform=("iPhoneOS" "iPhoneOS") # "iphoneos" "iPhoneSimulator")
 fi
 
 export PLATFORM_TYPE="iOS"

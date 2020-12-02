@@ -20,7 +20,7 @@ set -u
 
 source ./build-ios-common.sh
 
-if [ -z ${version+x} ]; then 
+if [ -z ${version+x} ]; then
   version="7.68.0"
 fi
 
@@ -88,19 +88,19 @@ function configure_make() {
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --without-libidn2 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --enable-ipv6 --without-libidn2 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "armv7" ]]; then
 
-        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
-    
+        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+
     elif [[ "${ARCH}" == "arm64e" ]]; then
 
-        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./Configure --host=$(ios_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         log_error "not support" && exit 1

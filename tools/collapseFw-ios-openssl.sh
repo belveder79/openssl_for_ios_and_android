@@ -30,7 +30,7 @@ done
 #===================================================
 # create a dummy framwork
 # set OUT_DIR and LIB_NAME
-SOURCE_INFO_PLIST=patches/ios/Info.plist
+SOURCE_INFO_PLIST=patches/ios/openssl/Info.plist
 FW_PATH="$INSTALL_DIR/$LIB_NAME.framework"
 INFO_PLIST="$FW_PATH/Info.plist"
 OUT_DYLIB="$FW_PATH/$LIB_NAME"
