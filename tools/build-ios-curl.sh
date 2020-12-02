@@ -21,7 +21,7 @@ set -u
 source ./build-ios-common.sh
 
 if [ -z ${version+x} ]; then
-  version="7.68.0"
+  version="7.73.0"
 fi
 
 TOOLS_ROOT=$(pwd)
@@ -43,14 +43,18 @@ LIB_DEST_DIR="${pwd_path}/../output/ios/curl-universal"
 
 init_log_color
 
-echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
+#echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
 # https://curl.haxx.se/download/${LIB_NAME}.tar.gz
 # https://github.com/curl/curl/releases/download/curl-7_69_0/curl-7.69.0.tar.gz
 # https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
-[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+#[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+[ -f "${LIB_NAME}.zip" ] || curl -LO https://github.com/belveder79/curl/archive/master.zip
+mv master.zip ${LIB_NAME}.zip
+rm curl_build_tools_7.73.0.zip
+wget -c https://www.dropbox.com/s/e28hdim9l87xdna/curl_build_tools_7.73.0.zip
 
 function configure_make() {
 
@@ -64,9 +68,12 @@ function configure_make() {
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
     fi
-    tar xfz "${LIB_NAME}.tar.gz"
+    #tar xfz "${LIB_NAME}.tar.gz"
+    unzip -q ${LIB_NAME}.zip
+    mv curl-master ${LIB_NAME}
     pushd .
     cd "${LIB_NAME}"
+    unzip -o ../curl_build_tools_7.73.0.zip
 
     PREFIX_DIR="${pwd_path}/../output/ios/curl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
