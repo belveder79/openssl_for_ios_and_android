@@ -43,7 +43,7 @@ LIB_VERSION="curl-$(echo $version | sed 's/\./_/g')"
 LIB_NAME="curl-$version"
 LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
 
-echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
+#echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
 # https://curl.haxx.se/download/${LIB_NAME}.tar.gz
 # https://github.com/curl/curl/releases/download/curl-7_69_0/curl-7.69.0.tar.gz
@@ -111,23 +111,91 @@ function configure_make() {
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        #./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        APISTR=24
+
+        BUILD_DIR=$LIB_NAME-build
+        SRC_DIR=.
+
+        TMP_ROOT_DIR=$(pwd)
+
+        echo "STARTING ANDROID BUILD IN DIR ${TMP_ROOT_DIR}"
+
+        rm -rf $BUILD_DIR
+        mkdir $BUILD_DIR
+
+        #ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5
+        #ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
+
+        cd $TMP_ROOT_DIR
+        git clone https://github.com/onqtam/ucm.git cmake/ucm
+
+        cmake -H$SRC_DIR -B$BUILD_DIR/armeabi-v7a \
+          -DCMAKE_TOOLCHAIN_FILE=${POLLY_ROOT}/android-ndk-r16b-api-$APISTR-armeabi-v7a-neon-clang-libcxx14.cmake \
+          -DCMAKE_INSTALL_PREFIX=${PREFIX_DIR} -DUSE_NGHTTP2=true \
+          -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_EXECUTABLE=true -DANDROID_ABI=arm64-v8a \
+          -DOPENSSL_ROOT_DIR=${OPENSSL_OUT_DIR} \
+          -DCMAKE_INSTALL_PREFIX=${PREFIX_DIR} \
+          -DNGHTTP2_LIBRARY=${NGHTTP2_OUT_DIR}/lib/libnghttp2.so \
+          -DNGHTTP2_INCLUDE_DIR=${NGHTTP2_OUT_DIR}/include
+        cmake -H$SRC_DIR -B$BUILD_DIR/armeabi-v7a \
+          -DCMAKE_TOOLCHAIN_FILE=${POLLY_ROOT}/android-ndk-r16b-api-$APISTR-armeabi-v7a-neon-clang-libcxx14.cmake \
+          -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_EXECUTABLE=true -DANDROID_ABI=arm64-v8a \
+          -DOPENSSL_ROOT_DIR=${OPENSSL_OUT_DIR} -DUSE_NGHTTP2=true \
+          -DNGHTTP2_LIBRARY=${NGHTTP2_OUT_DIR}/lib/libnghttp2.so \
+          -DNGHTTP2_INCLUDE_DIR=${NGHTTP2_OUT_DIR}/include
+        cmake --build $BUILD_DIR/armeabi-v7a -- -j
+        cmake --build $BUILD_DIR/armeabi-v7a -- -j install
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         # --enable-shared need nghttp2 cpp compile
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        #./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        APISTR=24
 
+        BUILD_DIR=$LIB_NAME-build
+        SRC_DIR=.
+
+        TMP_ROOT_DIR=$(pwd)
+
+        echo "STARTING ANDROID BUILD IN DIR ${TMP_ROOT_DIR}"
+
+        rm -rf $BUILD_DIR
+        mkdir $BUILD_DIR
+
+        #ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5
+        #ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
+
+        cd $TMP_ROOT_DIR
+        git clone https://github.com/onqtam/ucm.git cmake/ucm
+
+        cmake -H$SRC_DIR -B$BUILD_DIR/arm64-v8a \
+          -DCMAKE_TOOLCHAIN_FILE=${POLLY_ROOT}/android-ndk-r16b-api-$APISTR-arm64-v8a-clang-libcxx14.cmake \
+          -DCMAKE_INSTALL_PREFIX=${PREFIX_DIR} -DUSE_NGHTTP2=true \
+          -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_EXECUTABLE=true -DANDROID_ABI=arm64-v8a \
+          -DOPENSSL_ROOT_DIR=${OPENSSL_OUT_DIR} \
+          -DCMAKE_INSTALL_PREFIX=${PREFIX_DIR} \
+          -DNGHTTP2_LIBRARY=${NGHTTP2_OUT_DIR}/lib/libnghttp2.so \
+          -DNGHTTP2_INCLUDE_DIR=${NGHTTP2_OUT_DIR}/include
+        cmake -H$SRC_DIR -B$BUILD_DIR/arm64-v8a \
+          -DCMAKE_TOOLCHAIN_FILE=${POLLY_ROOT}/android-ndk-r16b-api-$APISTR-arm64-v8a-clang-libcxx14.cmake \
+          -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_EXECUTABLE=true -DANDROID_ABI=arm64-v8a \
+          -DOPENSSL_ROOT_DIR=${OPENSSL_OUT_DIR} -DUSE_NGHTTP2=true \
+          -DNGHTTP2_LIBRARY=${NGHTTP2_OUT_DIR}/lib/libnghttp2.so \
+          -DNGHTTP2_INCLUDE_DIR=${NGHTTP2_OUT_DIR}/include
+        cmake --build $BUILD_DIR/arm64-v8a -- -j
+        cmake --build $BUILD_DIR/arm64-v8a -- -j install
     else
         log_error "not support" && exit 1
     fi
 
     log_info "make $ABI start..."
 
-    make clean >>"${OUTPUT_ROOT}/log/${ABI}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
-        make install >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
-        cp src/.libs/libcurltool.so ${PREFIX_DIR}/lib
+    if [[ "${ARCH}" != "arm64" &&  "${ARCH}" != "arm" ]]; then
+      make clean >>"${OUTPUT_ROOT}/log/${ABI}.log"
+      if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
+          make install >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+      fi
     fi
 
     popd
