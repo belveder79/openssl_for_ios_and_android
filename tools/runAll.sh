@@ -13,4 +13,4 @@ export POLLY_ROOT=~/Development/AR4/VIZARIO.FIND/polly_bel
 /bin/bash collapseFw-ios-openssl.sh;
 /bin/bash collapseFw-ios-nghttp2.sh;
 /bin/bash collapseFw-ios-curl.sh;
-/bin/bash prepareUnity.sh;
+/bin/bash patchAndSign.sh;

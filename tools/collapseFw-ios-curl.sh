@@ -76,3 +76,10 @@ cp "$SOURCE_INFO_PLIST" "$INFO_PLIST"
 #cp -R $BASE_DIR/curl-armv7/include/* $INSTALL_DIR/$LIB_NAME.framework/Headers
 lipo $INSTALL_DIR/lib/$FINALLIBNAME1 -output "$OUT_DYLIB" -create
 install_name_tool -id @rpath/$LIB_NAME.framework/$LIB_NAME "$OUT_DYLIB"
+
+# reset rpath
+for i in ${archs[@]}
+do
+  install_name_tool -change $BASE_DIR/nghttp2-$i/lib/libnghttp2.14.dylib \
+    @rpath/nghttp2.framework/nghttp2 "$OUT_DYLIB"
+done
