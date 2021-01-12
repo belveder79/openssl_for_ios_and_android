@@ -22,15 +22,15 @@ for ((i = 0; i < ${#ABIS[@]}; i++)); do
   patchelf --replace-needed libcrypto.so.1.1 libcurlcrypto.so $FOLDER/libcurl.so
   patchelf --replace-needed libssl.so.1.1 libcurlssl.so $FOLDER/libcurl.so
   #patchelf --print-needed $APIOUT/libcurl.so
-  patchelf --replace-needed libcrypto.so.1.1 libcurlcrypto.so $FOLDER/libcurltool.so
-  patchelf --replace-needed libssl.so.1.1 libcurlssl.so $FOLDER/libcurltool.so
+  #patchelf --replace-needed libcrypto.so.1.1 libcurlcrypto.so $FOLDER/libcurltool.so
+  #patchelf --replace-needed libssl.so.1.1 libcurlssl.so $FOLDER/libcurltool.so
   #patchelf --print-needed $APIOUT/libcurltool.so
 done
 
 echo "Patching iOS... "
 
 FOLDER=../output/ios/curl-framework
-cp deepsign.sh $FOLDER/ && cd $FOLDER && /bin/bash deepsign.sh curl && /bin/bash deepsign.sh curltool && rm deepsign.sh && cd $TMPD
+cp deepsign.sh $FOLDER/ && cd $FOLDER && /bin/bash deepsign.sh curl && rm deepsign.sh && cd $TMPD
 FOLDER=../output/ios/nghttp2-framework
 cp deepsign.sh $FOLDER/ && cd $FOLDER && /bin/bash deepsign.sh nghttp2 && rm deepsign.sh && cd $TMPD
 FOLDER=../output/ios/openssl-framework

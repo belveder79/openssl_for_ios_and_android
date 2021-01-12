@@ -21,7 +21,7 @@ set -u
 source ./build-android-common.sh
 
 if [ -z ${version+x} ]; then
-  version="7.73.0"
+  version="7.74.0"
 fi
 
 init_log_color
@@ -51,11 +51,11 @@ LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
-#[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
-[ -f "${LIB_NAME}.zip" ] || curl -LO https://github.com/belveder79/curl/archive/master.zip
-mv master.zip ${LIB_NAME}.zip
-rm curl_build_tools_7.73.0.zip
-wget -c https://www.dropbox.com/s/e28hdim9l87xdna/curl_build_tools_7.73.0.zip
+[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+#[ -f "${LIB_NAME}.zip" ] || curl -LO https://github.com/belveder79/curl/archive/master.zip
+#mv master.zip ${LIB_NAME}.zip
+#rm curl_build_tools_7.73.0.zip
+#wget -c https://www.dropbox.com/s/e28hdim9l87xdna/curl_build_tools_7.73.0.zip
 
 set_android_toolchain_bin
 
@@ -70,12 +70,12 @@ function configure_make() {
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
     fi
-    #tar xfz "${LIB_NAME}.tar.gz"
-    unzip -q ${LIB_NAME}.zip
-    mv curl-master ${LIB_NAME}
+    tar xfz "${LIB_NAME}.tar.gz"
+    #unzip -q ${LIB_NAME}.zip
+    #mv curl-master ${LIB_NAME}
     pushd .
     cd "${LIB_NAME}"
-    unzip -o ../curl_build_tools_7.73.0.zip
+    #unzip -o ../curl_build_tools_7.73.0.zip
 
     PREFIX_DIR="${pwd_path}/../output/android/curl-${ABI}"
     if [ -d "${PREFIX_DIR}" ]; then
