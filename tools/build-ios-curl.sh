@@ -73,7 +73,7 @@ function configure_make() {
     #mv curl-master ${LIB_NAME}
     pushd .
     cd "${LIB_NAME}"
-    tar -xzf ../patches/ios/curl/patch_7.74.0.tar.gz
+    tar -xzf ../patches/ios/curl/patch_7.74.0.tgz
     #unzip -o ../curl_build_tools_7.73.0.zip
 
     PREFIX_DIR="${pwd_path}/../output/ios/curl-${ARCH}"
