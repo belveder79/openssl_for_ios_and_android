@@ -20,7 +20,7 @@ set -u
 
 source ./build-android-common.sh
 
-if [ -z ${version+x} ]; then
+if [ -z ${version+x} ]; then 
   version="7.74.0"
 fi
 
